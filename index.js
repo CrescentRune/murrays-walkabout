@@ -6,7 +6,8 @@ const quotes = require("./murray.json");
 const client = new Discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"]});
 client.login(config.BOT_TOKEN);
 
-const prefix = "_m"
+const prefix = "_m";
+
 
 function generateQuote() {
     return quotes[Math.floor(Math.random()*quotes.length)];
@@ -29,10 +30,30 @@ client.on("messageCreate", (message) => {
 
     if (command === 'quote') {
         response = generateQuote();
+        message.reply(response);
+    }
+    else if (command === 'groovy') {
+        const channel_name = 'murrays-walkabout';
+        message.guild.channels.fetch().then((channels) => {
+            if (channels.find((channel) => channel.name === channel_name)) {
+                response = 'Sorry there, amigo. THE MURRAY is coming from inside the HOUSE!!';
+            }
+            else {
+                message.guild.channels.create(channel_name), { //Create a channel
+                    type: 'text', //Make sure the channel is a text channel
+                    parent: 'games',
+                    permissionOverwrites: [{ //Set permission overwrites
+                        id: message.guild.id,
+                        allow: ['VIEW_CHANNEL'],
+                    }]
+                }
+                response = 'TIME TO SEISMIC FLOP INTO THIS SERVER!!'
+            }
+            message.reply(response);
+        })
     }
     else {
         response = `I-I'm sorry, ${message.author.username}. I-I tried to understand you... But, I just wasn't strong enough.`;
+        message.reply(response);
     }
-
-    message.reply(response);
 });
