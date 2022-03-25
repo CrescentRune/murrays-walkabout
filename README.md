@@ -2,7 +2,7 @@
 My first Discord bot whose sole goal is to tear my family apart in the form of introducing competitive text-chat based gaming to our Discord server.
 
 ## What it is right now...
-First and foremost this bot is a stupid reference to the character [Murray](https://slycooper.fandom.com/wiki/Murray) from the early 2000's "here for a good time, not a long time" PS2 Platforming series Sly Cooper. This character often serves as comic relief, endearingly referring to himself as "The Murray".
+First and foremost this bot is a stupid reference to the character [Murray](https://slycooper.fandom.com/wiki/Murray) from the early 2000's "here for a good time, not a long time" PS2 platforming series Sly Cooper. This character often serves as comic relief, endearingly referring to himself as "The Murray".
 
 Right now it is a shallow repository of quotes that you can have your very own _The Murray_ spew at you when mentioned, or when summoned by the currently static "_m" prefix.
 
