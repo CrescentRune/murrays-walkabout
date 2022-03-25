@@ -1,0 +1,14 @@
+{
+  "name": "murrays-walkabout",
+  "version": "1.0.0",
+  "description": "A worldle Discord bot to absolutely destroy my family with.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hank Krutulis",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
+}
