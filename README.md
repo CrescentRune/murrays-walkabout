@@ -6,7 +6,7 @@ First and foremost this bot is a stupid reference to the character [Murray](http
 
 Right now it is a shallow repository of quotes that you can have your very own _The Murray_ spew at you when mentioned, or when summoned by the currently static "_m" prefix.
 
-To do that, simply follow the Discord application/bot set-up, and add your own config.json file with a BOT_TOKEN from the one the web UI gives you. Recommended you add the bot with admin privileges, as that is what I intend to do.
+To do that, simply follow the Discord application/bot set-up, and add your own config.json file with a BOT_TOKEN from the one the web UI gives you. I recommend you add the bot with admin privileges, as it will attempt actions assuming that privilege level..
 
 I'll add recommendations for application deployment and hosting once I know what exactly my own plans are for it. 
 Especially since I foresee a huge market in the overlap of niche, 20-year-old, dead, video game franchise fans, and those who serially play Wordle-style games...
