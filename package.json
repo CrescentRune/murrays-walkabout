@@ -2,7 +2,7 @@
   "name": "murrays-walkabout",
   "version": "1.0.0",
   "description": "A worldle Discord bot to absolutely destroy my family with.",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {},
   "author": "Hank Krutulis",
   "license": "ISC",
