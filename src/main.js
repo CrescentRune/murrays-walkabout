@@ -1,12 +1,14 @@
-const Discord = require("discord.js");
-const config = require("resources/config.json");
-const quotes = require("resources/murray.json");
+require('dotenv').config();
+const discord = require("discord.js");
+
+const quotes = require("../resources/murray.json");
 
 
-const client = new Discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"]});
-client.login(config.BOT_TOKEN);
 
-const prefix = "_m";
+const client = new discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"]});
+client.login(process.env.BOT_TOKEN);
+
+const prefix = process.env.PREFIX;
 
 
 function generateQuote() {
@@ -32,24 +34,56 @@ client.on("messageCreate", (message) => {
         response = generateQuote();
         message.reply(response);
     }
-    else if (command === 'groovy') {
+    else if (command === 'safehouse') {
         const channel_name = 'murrays-walkabout';
-        message.guild.channels.fetch().then((channels) => {
-            if (channels.find((channel) => channel.name === channel_name)) {
-                response = 'Sorry there, amigo. THE MURRAY is coming from inside the HOUSE!!';
+        let channelP = null;
+
+        let guild = message.guild;
+
+        guild.channels.fetch().then((channels) => {
+
+            let catPromise = null
+
+            let gameCat = channels.find((channel) => channel.type === "GUILD_CATEGORY" && channel.name === "games")            
+            if (!(gameCat)) {
+                console.log('Creating games!!')
+                catPromise = guild.channels.create('games', {
+                    type: "GUILD_CATEGORY"
+                });
             }
             else {
-                message.guild.channels.create(channel_name), { //Create a channel
-                    type: 'text', //Make sure the channel is a text channel
-                    parent: 'games',
-                    permissionOverwrites: [{ //Set permission overwrites
-                        id: message.guild.id,
-                        allow: ['VIEW_CHANNEL'],
-                    }]
-                }
-                response = 'TIME TO SEISMIC FLOP INTO THIS SERVER!!'
+                catPromise = Promise.resolve(gameCat); 
             }
-            message.reply(response);
+
+            
+            let gameChannel = channels.find((channel) => channel.name === channel_name);
+            response = `Sorry there, ${message.author.username}. THE MURRAY is coming from inside the HOUSE!!`
+            if (!gameChannel) {
+                catPromise.then((catChannel) => {
+                    message.guild.channels.create(
+                        channel_name, 
+                        { //Create a channel
+                        parent: catChannel.id,
+                        permissionOverwrites: [{ //Set permission overwrites
+                            id: message.guild.id,
+                            allow: ['VIEW_CHANNEL'],
+                        }]
+                    }).then(
+                        (channel) => {
+                            gameChannel = channel;
+                            gameChannel.send(response);
+                        }
+                    );
+                    response = 'TIME TO SEISMIC FLOP INTO THIS SERVER!!'
+                });
+            } else {
+                catPromise.then((catChannel) => {
+                    if (gameChannel.parentId !== catChannel.id) {
+                        gameChannel.setParent(catChannel.id);
+                    }
+                    gameChannel.send(response);
+                });
+            }
         })
     }
     else {
