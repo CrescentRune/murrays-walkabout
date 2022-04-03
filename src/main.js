@@ -1,8 +1,9 @@
 require('dotenv').config();
 const discord = require("discord.js");
-
 const quotes = require("../resources/murray.json");
 
+const channel_init = require("./channel-init.js")
+// const channel_init = require('./channel-init.js');
 
 
 const client = new discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"]});
@@ -36,6 +37,9 @@ client.on("messageCreate", (message) => {
     }
     else if (command === 'safehouse') {
         const channel_name = 'murrays-walkabout';
+        // channel_init.createGameChannel(message, channel_name);
+        channel_init.createGameChannel(message, channel_name);
+        /*
         let channelP = null;
 
         let guild = message.guild;
@@ -85,6 +89,7 @@ client.on("messageCreate", (message) => {
                 });
             }
         })
+        */
     }
     else {
         response = `I-I'm sorry, ${message.author.username}. I-I tried to understand you... But, I just wasn't strong enough.`;
