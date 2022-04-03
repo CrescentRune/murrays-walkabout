@@ -9,6 +9,11 @@ exports.createGameChannel = (
     let gameChannel  = null;
     let response = '';
 
+    var promise = new Promise((resolve, reject) => {
+        promiseResolve = resolve;
+        promiseReject = reject;
+    });
+
     guild.channels.fetch().then((channels) => {
         gameCategory = channels.find(
             (channel) => {
@@ -45,7 +50,8 @@ exports.createGameChannel = (
             });
         }
         else {
-            response = 'THE MURRAY IS COMING FROM INSIDE THE HOUSE!'
+            response = 'THE MURRAY IS COMING FROM INSIDE THE SERVER!'
+            responseType = 'CHANNEL_CREATED';
             if (gameChannel.parentId !== gameCategory.id) {
                 gameChannel.setParent(gameCategory.id);
             }
@@ -54,10 +60,14 @@ exports.createGameChannel = (
     .then((newChannel) => {
         if (!gameChannel) {
             response = 'SEISMIC FLOP! THE MURRAY HAS ARRIVED!'
+            responseType = 'CHANNEL_EXISTS';
             gameChannel = newChannel;
         }
+
+        promiseResolve(gameChannel, responseType);
         gameChannel.send(response);
     });
+
 }        
     
 

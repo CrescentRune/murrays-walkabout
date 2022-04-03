@@ -1,7 +1,7 @@
-const murrayQuotes = require('../resources/murray.json');
+const quotes = require('../resources/murray.json');
 
 
-export const RESPONSE_CASE = {
+const RESPONSE_CASE = {
     QUOTE: 'QUOTE',             //Requesting a murray quote
     CC_SUCCESS: 'CC_SUCCESS',   //Respond success to create channel
     CC_FAILURE: 'CC_FAILURE',   //Respond to failure to create channel
@@ -13,29 +13,13 @@ const ccSuccess = 'SERVER! MEET SEISMIC FLOP!!';
 const ccFailure = 'Sorry there, amigo. THE MURRAY is coming from inside the HOUSE!!'
 
 
-export const quotations = (() => {
-    class Quotations {
-        constuctor() {}
+generateQuote = () => {
+    return quotes[Math.floor(Math.random()*quotes.length)];
+}
 
-        response(state) {
-            switch(state) {
-                case RESPONSE_CASE.QUOTE:
-                    return this.generateQuote();
-                case RESPONSE_CASE.CC_SUCCESS:
-                    return ccSuccess;
-                case RESPONSE_CASE.CC_FAILURE:
-                    return ccFailure;
-                case RESPONSE_CASE.UNKNOWN:
-                    return this.responseUnknown();
-            }
-        }
+sendQuote = (msg) => {
+    msg.reply(generateQuote());
+}
 
-        generateQuote() {
-            return quotes[Math.floor(Math.random()*quotes.length)];
-        }
-
-        responseUnknown(userName) {
-            return unknownFn(userName);
-        }
-    }
-});
+// exports.generateQuote = generateQuote;
+exports.sendQuote = sendQuote;

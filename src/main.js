@@ -7,7 +7,7 @@ const command = require("./command.js");
 // require("./command.js").resolve();
 // command.resolve();
 
-let resolver = new command.CommandResolver();
+let commandEngine = new command.CommandEngine();
 
 // const channel_init = require('./channel-init.js');
 
@@ -34,7 +34,7 @@ client.on("messageCreate", (message) => {
     if (!message.content.startsWith(prefix)) return;
 
     const commandBody = message.content.slice(prefix.length);
-    
+    commandEngine.processCommand(commandBody, message);
 
     // command.resolveCommand(commandBody);
     
