@@ -1,9 +1,12 @@
 const channel_init = require("./channel-init.js");
 const quotation = require("./quotations.js");
+const puzzle = require("./puzzle");
 
 const COMMAND = {
     INITIALIZE: 'safehouse',
     QUOTATION: 'quote',
+    AUTOCOMPLETE: 'ac',
+    PUZZLE: 'puzzle'
 
 }
 
@@ -31,7 +34,10 @@ const RESPONSE_TYPE = {
 
 
 class CommandEngine {
-    constructor() {}
+    constructor() {
+        this.puzzle = new puzzle.Puzzle();
+        this.args = null;
+    }
 
     processCommand(commandBody, msg) {
         const command = this.preprocessCommand(commandBody);
@@ -40,8 +46,9 @@ class CommandEngine {
     }
 
     preprocessCommand(commandBody) {
-        const args = commandBody.split(' ').map((item) => item.toLowerCase());
-        const command = args.shift();
+        this.args = commandBody.split(' ').map((item) => item.toLowerCase());
+        console.log(this.args);
+        const command = this.args.shift();
 
         return command/*, args*/;
     }
@@ -55,34 +62,16 @@ class CommandEngine {
                 quotation.sendQuote(msg);
                 break;
             case COMMAND.PUZZLE:
-                
+                this.puzzle.initPuzzle(msg);
+                break;
+            case COMMAND.AUTOCOMPLETE:
+                this.puzzle.autoCompleteGuess(msg, this.args.shift());
+                break;
             default:
                 this.sendUnrecognizedResponse(msg);
             
         }
     }
-
-    // issueResponse(responseType, msg, channel=null) {
-    //     let responseMsg = '';
-    //     switch (responseType) {
-    //         case QUOTATION:
-    //             responseMsg = quotation.generateQuotation().then();
-    //             msg.reply(responseMsg);
-    //             break;
-    //         case CHANNEL_CREATED:
-    //             responseMsg = 'SEISMIC FLOP! THE MURRAY has arrived!';
-    //             channel.send(responseMsg);
-    //             break;
-    //         case CHANNEL_EXISTS:
-    //             responseMsg = 'THE MURRAY is coming from inside the SERVER!!';
-    //             channel.send(responseMsg);
-    //             break;
-    //         case UNKNOWN:
-    //             responseMsg = `I-I'm sorry, ${msg.author.username}. I-I tried to understand you... But, I just wasn't strong enough.`
-    //             msg.reply(responseMsg);
-    //             break;
-    //     }
-    // }
 
     sendUnrecognizedResponse(msg) {
         msg.channel.send(unknownCommandResp(msg.author.username));

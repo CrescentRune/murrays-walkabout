@@ -259,7 +259,7 @@ const countryCodesWithImage = [
 //   name: string;
 // }
 
-export const countries = [
+const countries = [
   {
     code: "AD",
     latitude: 42.546245,
@@ -1732,11 +1732,12 @@ export const countries = [
   },
 ];
 
-export const countriesWithImage = countries.filter((c) =>
+const countriesWithImage = countries.filter((c) =>
   countryCodesWithImage.includes(c.code.toLowerCase())
 );
 
-export const areas = {
+
+const areas = {
   AW: 193,
   AF: 652090,
   AO: 1246700,
@@ -1986,19 +1987,26 @@ export const areas = {
   XK: 10887,
 };
 
-export const smallCountryLimit = 5000;
-export const bigEnoughCountriesWithImage = countriesWithImage.filter(
+const smallCountryLimit = 5000;
+const bigEnoughCountriesWithImage = countriesWithImage.filter(
   (country) => areas[country.code] > smallCountryLimit
 );
 
-export function getCountryName(country) {
+exports.countries = bigEnoughCountriesWithImage;
+
+const countryNames = bigEnoughCountriesWithImage.map( country => country.name.toLowerCase() );
+exports.countryNames = countryNames;
+
+function getCountryName(country) {
   return country.name;
 }
 
-export function sanitizeCountryName(countryName) {
+function sanitizeCountryName(countryName) {
   return countryName
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[- '()]/g, "")
     .toLowerCase();
 }
+
+exports.sanitizeCountryName = sanitizeCountryName;
