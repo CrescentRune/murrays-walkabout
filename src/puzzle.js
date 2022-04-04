@@ -30,8 +30,10 @@ class Puzzle {
         );
 
         possibilities = possibilities.join(', ');
-        msg.author.send('Are you looking for any of these?\n');
-        msg.author.send(possibilities);
+        // msg.author.send('Are you looking for any of these?\n');
+        msg.channel.send('Are you looking for any of these?');
+        // msg.author.send(possibilities);
+        msg.channel.send(possibilities);
     }
 
     handleGuess(msg) {
